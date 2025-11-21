@@ -1,135 +1,299 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sarthak Karn</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
-<style>
-    body {
-        font-family: 'Roboto', sans-serif;
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        color: #fff;
-        /* Engineering blueprint vibe: grey-blue gradient with subtle lines */
-        background: linear-gradient(120deg, #1c1c2c, #3a4a6a);
-        background-image:
-            linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px),
-            linear-gradient(120deg, #1c1c2c, #3a4a6a);
-        background-size: 40px 40px, 40px 40px, auto;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarthak Karn — Personal Portfolio</title>
 
-    .box {
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(15px);
-        max-width: 700px;
-        width: 90%;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-        text-align: center;
-        margin-top: 50px;
-        transition: transform 0.3s;
-        border: 1px solid rgba(255,255,255,0.15);
-    }
-    .box:hover { transform: translateY(-10px); }
+    <!-- Tailwind CDN -->
+    <script>
+        // Enable Tailwind dark mode using 'class' strategy
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    h1 {
-        font-size: 2.8rem;
-        margin-bottom: 10px;
-        color: #fff;
-    }
-    p {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        color: #e0e0e0;
-        margin-bottom: 20px;
-    }
+    <!-- Google Fonts -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
 
-    /* Bottom Connect With Me Section */
-    .connect-bottom {
-        width: 100%;
-        padding: 30px 20px 50px 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background: rgba(0,0,0,0.2);
-        backdrop-filter: blur(8px);
-        border-top: 1px solid rgba(255,255,255,0.15);
-    }
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
 
-    .connect-bottom h2 {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        font-size: 1.5rem;
-        letter-spacing: 2px;
-        color: #fff;
-        margin-bottom: 20px;
-        text-transform: uppercase;
-        background: linear-gradient(90deg, #00d4ff, #00ff94);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+        }
 
-    .social-icons {
-        width: 100%;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        max-width: 600px;
-    }
+        .hero-bg {
+            background: url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&w=1500');
+            background-size: cover;
+            background-position: center;
+        }
 
-    .social-icons a {
-        display: inline-block;
-        transition: transform 0.3s, filter 0.3s;
-    }
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
 
-    .social-icons a:hover {
-        transform: scale(1.3);
-        filter: brightness(1.2);
-    }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    .social-icons img {
-        width: 60px;
-        height: 60px;
-    }
+        #about p {
+            text-align: justify;
+            text-justify: inter-word;
+        }
 
-    @media (max-width: 500px) {
-        h1 { font-size: 2rem; }
-        .connect-bottom h2 { font-size: 1.2rem; }
-        .social-icons img { width: 50px; height: 50px; }
-    }
-</style>
+        /* Typewriter Cursor */
+        .cursor {
+            display: inline-block;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% {
+                opacity: 1;
+            }
+            25%, 75% {
+                opacity: 0;
+            }
+        }
+
+        /* Adjust dark toggle position */
+        #darkToggle {
+            top: 80px; /* moved down to avoid overlapping navbar */
+            right: 20px;
+            z-index: 60;
+        }
+    </style>
 </head>
-<body>
 
-<div class="box">
-    <h1>Welcome to My Website</h1>
-    <p>This is my personal website hosted on GitHub Pages.</p>
-    <p>More content coming soon!</p>
-</div>
+<body class="bg-white text-gray-900 dark:bg-black dark:text-gray-200 transition-colors duration-500">
 
-<!-- Bottom Connect With Me -->
-<div class="connect-bottom">
-    <h2>Connect With Me</h2>
-    <div class="social-icons">
-        <a href="https://www.facebook.com/share/1ZQRG8QjTi/" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook">
-        </a>
-        <a href="https://www.instagram.com/introverted._.insight?igsh=MTlsYTg0cXd4eTJ0Mg==" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
-        </a>
-        <a href="mailto:karnsarthak12345@gmail.com" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg" alt="Email">
-        </a>
-    </div>
-</div>
+    <!-- DARK MODE TOGGLE -->
+    <button id="darkToggle"
+        class="fixed bg-gray-200 dark:bg-gray-700 p-3 rounded-full shadow-md transition">
+        🌙
+    </button>
+
+    <!-- NAVBAR (Transparent) -->
+    <nav
+        class="fixed top-0 left-0 w-full bg-transparent py-4 px-8 flex justify-between items-center z-50">
+        <h1 class="text-2xl font-bold tracking-wide">Sarthak <span class="text-blue-500">Karn</span></h1>
+        <div class="space-x-8 hidden md:flex">
+            <a href="#hero" class="hover:text-blue-500">Home</a>
+            <a href="#about" class="hover:text-blue-500">About</a>
+            <a href="#education" class="hover:text-blue-500">Education</a>
+            <a href="#contact" class="hover:text-blue-500">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" class="h-screen hero-bg relative flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-black/50"></div>
+
+        <div class="relative z-10 text-center text-white px-4 space-y-4">
+            <!-- Hi, I'm Sarthak Karn -->
+            <h1 class="text-5xl md:text-7xl font-extrabold" id="hero-name">Hi, I'm <span class="text-blue-400">Sarthak Karn</span></h1>
+
+            <!-- Typewriter Lines -->
+            <p class="text-xl md:text-2xl hero-typewriter" id="line1"></p>
+            <p class="text-lg md:text-xl hero-typewriter" id="line2"></p>
+
+            <a href="#about"
+                class="mt-8 inline-block bg-blue-600 hover:bg-blue-700 transition px-8 py-3 rounded-full text-lg">
+                Learn More
+            </a>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="py-24 max-w-6xl mx-auto px-6">
+        <h2 class="text-4xl font-bold text-center mb-12 reveal">About Me</h2>
+
+        <div class="flex flex-col md:flex-row items-center gap-12">
+            <img src="https://i.ibb.co/BCV7NxC/pp.png"
+                class="w-56 h-56 object-cover rounded-full shadow-xl reveal">
+
+            <div class="flex-1 reveal">
+                <p class="text-lg leading-relaxed">
+                    I am a Civil Engineering student interested in structural design and surveying. I enjoy learning new skills and hope to contribute to safe, efficient, and sustainable infrastructure projects.
+                </p>
+                <p class="mt-4 text-lg leading-relaxed font-semibold">
+                    This is my new website, and I will be adding more content and updates as I continue to grow in my engineering journey.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education" class="py-24 bg-gray-100 dark:bg-[#111] px-6">
+        <h2 class="text-4xl font-bold text-center mb-12 reveal">Education</h2>
+
+        <div class="max-w-4xl mx-auto flex flex-col gap-8">
+
+            <!-- Higher Secondary Card -->
+            <div class="education-card flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-3 hover:scale-105 hover:shadow-2xl reveal">
+                <div class="md:w-1/3 flex justify-center p-6">
+                    <img src="https://i.ibb.co/kHjvY0F/triton-logo.png" alt="Triton SS/College"
+                        class="w-40 h-40 object-cover rounded-full transition-transform duration-500 hover:scale-110">
+                </div>
+                <div class="md:w-2/3 p-6 flex flex-col justify-center text-center md:text-left">
+                    <h3 class="text-2xl font-semibold mb-2">Higher Secondary Education</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-2">
+                        <strong>Triton SS & College</strong><br>
+                        Koteshwor‑32, Kathmandu, Nepal
+                    </p>
+                    <p class="font-medium text-gray-700 dark:text-gray-200">
+                        Completed Grades XI and XII on a <strong>full merit-based scholarship</strong>, consistently ranked among top students.
+                    </p>
+                </div>
+            </div>
+
+            <!-- IOE Entrance Rank Card -->
+            <div class="education-card flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-3 hover:scale-105 hover:shadow-2xl reveal">
+                <div class="md:w-1/3 flex justify-center p-6">
+                    <img src="https://i.ibb.co/Dgz7wbn/ioe-building.jpg" alt="IOE Building"
+                        class="w-40 h-40 object-cover rounded-full transition-transform duration-500 hover:scale-110">
+                </div>
+                <div class="md:w-2/3 p-6 flex flex-col justify-center text-center md:text-left">
+                    <h3 class="text-2xl font-semibold mb-2">IOE Entrance Examination</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-2">
+                        Institute of Engineering, Tribhuvan University<br>
+                        Kathmandu, Nepal
+                    </p>
+                    <p class="font-medium text-gray-700 dark:text-gray-200">
+                        Secured <span class="text-blue-500 font-bold">Rank 795</span>, placing among top nationwide candidates (2081 BS)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bachelor in Civil Engineering Card -->
+            <div class="education-card flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-3 hover:scale-105 hover:shadow-2xl reveal">
+                <div class="md:w-1/3 flex justify-center p-6">
+                    <img src="https://i.ibb.co/z8KQhYZ/purwanchal-logo.png" alt="Purwanchal Campus"
+                        class="w-40 h-40 object-cover rounded-full transition-transform duration-500 hover:scale-110">
+                </div>
+                <div class="md:w-2/3 p-6 flex flex-col justify-center text-center md:text-left">
+                    <h3 class="text-2xl font-semibold mb-2">Bachelor of Civil Engineering</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-2">
+                        <strong>Purwanchal Campus</strong><br>
+                        Dharan, Sunsari, Nepal
+                    </p>
+                    <p class="font-medium text-gray-700 dark:text-gray-200">
+                        Pursuing Bachelor of Civil Engineering on a <strong>full merit-based scholarship</strong> (Regular Program, 2024 — Present)
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-24 max-w-5xl mx-auto px-6">
+        <h2 class="text-4xl font-bold text-center mb-12 reveal">Contact</h2>
+
+        <div class="flex flex-col items-center gap-10 reveal">
+
+            <p class="text-lg text-center max-w-2xl text-gray-700 dark:text-gray-300">
+                Feel free to reach out through any of the platforms below.
+                I’m always open to connecting, sharing ideas, and meaningful conversations.
+            </p>
+
+            <div class="flex gap-10 justify-center items-center social-icons">
+
+                <!-- Facebook -->
+                <a href="#" target="_blank" class="transform hover:scale-110 transition">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
+                        alt="Facebook" class="w-14 h-14">
+                </a>
+
+                <!-- Instagram -->
+                <a href="#" target="_blank" class="transform hover:scale-110 transition">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"
+                        alt="Instagram" class="w-14 h-14">
+                </a>
+
+                <!-- Email -->
+                <a href="#" target="_blank" class="transform hover:scale-110 transition">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg"
+                        alt="Email" class="w-14 h-14">
+                </a>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-10 text-gray-500 dark:text-gray-400">
+        © 2025 Sarthak Karn. All Rights Reserved.
+    </footer>
+
+    <!-- JS Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        // DARK MODE TOGGLE
+        const toggle = document.getElementById("darkToggle");
+        toggle.addEventListener("click", () => {
+            document.documentElement.classList.toggle("dark");
+            // Change button icon
+            if (document.documentElement.classList.contains("dark")) {
+                toggle.textContent = "☀️";
+            } else {
+                toggle.textContent = "🌙";
+            }
+        });
+
+        // SCROLL REVEAL
+        const reveals = document.querySelectorAll(".reveal");
+        function revealOnScroll() {
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect().top;
+                if (rect < window.innerHeight - 100) {
+                    el.classList.add("active");
+                } else {
+                    el.classList.remove("active");
+                }
+            });
+        }
+        window.addEventListener("scroll", revealOnScroll);
+        revealOnScroll();
+
+        // HERO TYPEWRITER + ANIMATION
+        gsap.from("#hero-name", { y: 50, opacity: 0, duration: 1.5, ease: "power3.out" });
+
+        const typewriterTexts = [
+            "Civil Engineering | Purwanchal Campus | IOE | TU",
+            "Creating innovative, sustainable, and resilient infrastructure"
+        ];
+
+        function typeWriter(elementId, text, delay = 0, speed = 50) {
+            const el = document.getElementById(elementId);
+            let i = 0;
+            setTimeout(() => {
+                const interval = setInterval(() => {
+                    el.innerHTML += text.charAt(i);
+                    i++;
+                    if (i >= text.length) {
+                        clearInterval(interval);
+                        el.classList.remove("cursor"); // remove blinking after finish
+                    }
+                }, speed);
+            }, delay);
+        }
+
+        typeWriter("line1", typewriterTexts[0], 800, 40);
+        typeWriter("line2", typewriterTexts[1], 2200, 35);
+    </script>
 
 </body>
 </html>
