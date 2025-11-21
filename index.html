@@ -4,297 +4,411 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarthak Karn</title>
+    <title>Sarthak Karn | Civil Engineering Portfolio</title>
 
-    <!-- Tailwind CDN -->
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Enable Tailwind dark mode using 'class' strategy
         tailwind.config = {
-            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        header: ['Oswald', 'sans-serif'],
+                        mono: ['Roboto Mono', 'monospace'],
+                    },
+                    colors: {
+                        blueprint: '#0052cc',
+                        concrete: '#f3f4f6',
+                        steel: '#334155',
+                    }
+                }
+            }
         }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Google Fonts -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
 
-    <!-- Swiper -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body {
-            font-family: "Inter", sans-serif;
+        /* Technical Grid Background */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
         }
 
-        .hero-bg {
-            background: url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&w=1500');
-            background-size: cover;
-            background-position: center;
+        /* Blueprint Style Elements */
+        .blueprint-border {
+            border: 1px solid rgba(0, 82, 204, 0.3);
+            position: relative;
         }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease-out;
+        .blueprint-border::before,
+        .blueprint-border::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 1px solid #0052cc;
+            transition: all 0.3s ease;
         }
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        .blueprint-border::before {
+            top: -1px;
+            left: -1px;
+            border-right: none;
+            border-bottom: none;
         }
 
-        #about p {
-            text-align: justify;
-            text-justify: inter-word;
+        .blueprint-border::after {
+            bottom: -1px;
+            right: -1px;
+            border-left: none;
+            border-top: none;
         }
 
-        /* Typewriter Cursor */
-        .cursor {
-            display: inline-block;
-            margin-left: 2px;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 50%, 100% {
-                opacity: 1;
-            }
-            25%, 75% {
-                opacity: 0;
-            }
-        }
-
-        /* Adjust dark toggle position */
-        #darkToggle {
-            top: 80px; /* moved down to avoid overlapping navbar */
-            right: 20px;
-            z-index: 60;
+        .blueprint-border:hover::before,
+        .blueprint-border:hover::after {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 
-<body class="bg-white text-gray-900 dark:bg-black dark:text-gray-200 transition-colors duration-500">
+<body class="bg-concrete text-slate-800 font-sans antialiased">
 
-    <!-- DARK MODE TOGGLE -->
-    <button id="darkToggle"
-        class="fixed bg-gray-200 dark:bg-gray-700 p-3 rounded-full shadow-md transition">
-        🌙
-    </button>
+    <!-- 3D Canvas -->
+    <canvas id="structure-canvas"
+        class="fixed top-0 left-0 w-full h-full -z-10 opacity-60 pointer-events-none"></canvas>
 
-    <!-- NAVBAR (Transparent) -->
-    <nav
-        class="fixed top-0 left-0 w-full bg-transparent py-4 px-8 flex justify-between items-center z-50">
-        <h1 class="text-2xl font-bold tracking-wide">Sarthak <span class="text-blue-500">Karn</span></h1>
-        <div class="space-x-8 hidden md:flex">
-            <a href="#hero" class="hover:text-blue-500">Home</a>
-            <a href="#about" class="hover:text-blue-500">About</a>
-            <a href="#education" class="hover:text-blue-500">Education</a>
-            <a href="#contact" class="hover:text-blue-500">Contact</a>
+    <!-- Grid Overlay -->
+    <div class="fixed inset-0 bg-grid -z-20 pointer-events-none"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="font-header text-2xl font-bold uppercase tracking-wider text-slate-900">
+                Sarthak<span class="text-blueprint">.Karn</span>
+            </a>
+
+            <div class="hidden md:flex space-x-8 font-mono text-sm text-slate-600">
+                <a href="#about" class="hover:text-blueprint transition">// ABOUT ME</a>
+                <a href="#education" class="hover:text-blueprint transition">// ACADEMICS</a>
+                <a href="#contact" class="hover:text-blueprint transition">// CONTACT</a>
+            </div>
         </div>
     </nav>
 
-    <!-- HERO -->
-    <section id="hero" class="h-screen hero-bg relative flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 bg-black/50"></div>
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center px-6 pt-20 relative">
+        <div class="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6 z-10">
+                <div
+                    class="inline-block px-3 py-1 border border-blueprint text-blueprint font-mono text-xs tracking-widest bg-blue-50">
+                    CIVIL ENGINEERING PORTFOLIO
+                </div>
 
-        <div class="relative z-10 text-center text-white px-4 space-y-4">
-            <!-- Hi, I'm Sarthak Karn -->
-            <h1 class="text-5xl md:text-7xl font-extrabold" id="hero-name">Hi, I'm <span class="text-blue-400">Sarthak Karn</span></h1>
+                <h1 class="font-header text-6xl md:text-8xl font-bold text-slate-900 leading-none uppercase">
+                    Designing <br>
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-blueprint to-cyan-600">Tomorrow</span>
+                </h1>
 
-            <!-- Typewriter Lines -->
-            <p class="text-xl md:text-2xl hero-typewriter" id="line1"></p>
-            <p class="text-lg md:text-xl hero-typewriter" id="line2"></p>
-
-            <a href="#about"
-                class="mt-8 inline-block bg-blue-600 hover:bg-blue-700 transition px-8 py-3 rounded-full text-lg">
-                Learn More
-            </a>
-        </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="py-24 max-w-6xl mx-auto px-6">
-        <h2 class="text-4xl font-bold text-center mb-12 reveal">About Me</h2>
-
-        <div class="flex flex-col md:flex-row items-center gap-12">
-            <img src="https://i.ibb.co/BCV7NxC/pp.png"
-                class="w-56 h-56 object-cover rounded-full shadow-xl reveal">
-
-            <div class="flex-1 reveal">
-                <p class="text-lg leading-relaxed">
-                    I am a Civil Engineering student interested in structural design and surveying. I enjoy learning new skills and hope to contribute to safe, efficient, and sustainable infrastructure projects.
+                <p class="font-mono text-slate-600 max-w-md border-l-2 border-blueprint pl-4">
+                    Hi, I'm Sarthak Karn.<br>
+                    I combine technical precision with creative vision to build sustainable infrastructure.
                 </p>
-                <p class="mt-4 text-lg leading-relaxed font-semibold">
-                    This is my new website, and I will be adding more content and updates as I continue to grow in my engineering journey.
-                </p>
+
+                <div class="pt-8 flex gap-4">
+                    <a href="#about"
+                        class="blueprint-border px-8 py-4 bg-slate-900 text-white font-header tracking-wider hover:bg-blueprint transition-colors">
+                        KNOW MORE
+                    </a>
+                    <a href="#contact"
+                        class="px-8 py-4 border border-slate-300 font-header tracking-wider hover:bg-white hover:border-blueprint transition-colors">
+                        GET IN TOUCH
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Decor -->
+        <div class="absolute bottom-10 right-10 font-mono text-xs text-slate-400 hidden md:block text-right">
+            LOCATION: NEPAL<br>
+            STATUS: STUDENT<br>
+            MODE: LEARNING
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 px-6 bg-white border-y border-slate-200">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="relative">
+                    <!-- Technical Frame around Image -->
+                    <div class="absolute -inset-4 border-2 border-dashed border-slate-300 rounded-sm"></div>
+                    <div class="absolute -inset-4 border-2 border-slate-900 rounded-sm translate-x-2 translate-y-2">
+                    </div>
+                    <img src="https://i.ibb.co/BCV7NxC/pp.png" alt="Profile"
+                        class="relative w-full h-auto grayscale hover:grayscale-0 transition-all duration-500 object-cover shadow-xl">
+                </div>
+
+                <div>
+                    <h2 class="font-header text-4xl font-bold mb-2 uppercase">// About Me</h2>
+                    <div class="h-1 w-20 bg-blueprint mb-8"></div>
+
+                    <p class="text-lg text-slate-600 leading-relaxed mb-6 text-justify">
+                        I am a Civil Engineering student with a deep interest in structural design and surveying. My
+                        journey is driven by a desire to understand how we can build safer, more efficient, and
+                        sustainable infrastructure for the future.
+                    </p>
+                    <p class="text-lg text-slate-600 leading-relaxed mb-8 text-justify">
+                        Currently pursuing my Bachelor's at <span class="text-blueprint font-bold">Purwanchal Campus
+                            (IOE TU)</span>, I am constantly learning and applying new skills to solve real-world
+                        engineering challenges.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-4 font-mono text-sm">
+                        <div class="p-4 bg-slate-50 border border-slate-200">
+                            <i class="fas fa-drafting-compass text-blueprint mb-2 text-xl"></i>
+                            <div class="font-bold text-slate-900">PLANNING</div>
+                            <div class="text-slate-500">Surveying & Layout</div>
+                        </div>
+                        <div class="p-4 bg-slate-50 border border-slate-200">
+                            <i class="fas fa-building text-blueprint mb-2 text-xl"></i>
+                            <div class="font-bold text-slate-900">STRUCTURE</div>
+                            <div class="text-slate-500">Analysis & Design</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- EDUCATION -->
-    <section id="education" class="py-24 bg-gray-100 dark:bg-[#111] px-6">
-        <h2 class="text-4xl font-bold text-center mb-12 reveal">Education</h2>
+    <!-- Education Section -->
+    <section id="education" class="py-32 px-6 bg-concrete">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="font-header text-4xl font-bold mb-2 uppercase text-center">// Academic Timeline</h2>
+            <div class="h-1 w-20 bg-blueprint mx-auto mb-16"></div>
 
-        <div class="max-w-4xl mx-auto flex flex-col gap-8">
-
-            <!-- Higher Secondary Card -->
-            <div class="education-card flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-3 hover:scale-105 hover:shadow-2xl reveal">
-                <div class="md:w-1/3 flex justify-center p-6">
-                    <img src="https://i.ibb.co/kHjvY0F/triton-logo.png" alt="Triton SS/College"
-                        class="w-40 h-40 object-cover rounded-full transition-transform duration-500 hover:scale-110">
+            <div class="space-y-8 relative">
+                <!-- Vertical Line -->
+                <div class="absolute left-0 md:left-1/2 h-full w-px bg-slate-300 -translate-x-1/2 hidden md:block">
                 </div>
-                <div class="md:w-2/3 p-6 flex flex-col justify-center text-center md:text-left">
-                    <h3 class="text-2xl font-semibold mb-2">Higher Secondary Education</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-2">
-                        <strong>Triton SS & College</strong><br>
-                        Koteshwor‑32, Kathmandu, Nepal
-                    </p>
-                    <p class="font-medium text-gray-700 dark:text-gray-200">
-                        Completed Grades XI and XII on a <strong>full merit-based scholarship</strong>, consistently ranked among top students.
-                    </p>
+
+                <!-- Item 1 -->
+                <div class="relative flex flex-col md:flex-row gap-8 items-center group">
+                    <div class="md:w-1/2 md:text-right order-2 md:order-1">
+                        <h3 class="font-header text-2xl font-bold">Bachelor of Civil Engineering</h3>
+                        <p class="font-mono text-blueprint text-sm mb-2">NOV 2024 - PRESENT</p>
+                        <p class="text-slate-800 font-semibold">Purwanchal Campus</p>
+                        <p class="text-slate-600 text-sm">Dharan-8, Sunsari, Nepal</p>
+                        <span
+                            class="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold uppercase">Full
+                            Merit Scholarship (Regular)</span>
+                    </div>
+
+                    <div
+                        class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-blueprint rounded-full border-4 border-white shadow-lg hidden md:block z-10">
+                    </div>
+
+                    <div class="md:w-1/2 order-2 md:order-3 pl-8 md:pl-0">
+                        <!-- Spacer -->
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative flex flex-col md:flex-row gap-8 items-center group">
+                    <div class="md:w-1/2 md:text-right order-2 md:order-1">
+                        <!-- Spacer -->
+                    </div>
+
+                    <div
+                        class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-400 rounded-full border-4 border-white shadow-lg hidden md:block z-10 group-hover:bg-blueprint transition-colors">
+                    </div>
+
+                    <div class="md:w-1/2 order-2 md:order-3">
+                        <h3 class="font-header text-2xl font-bold">Entrance Examination</h3>
+                        <p class="font-mono text-blueprint text-sm mb-2">2024</p><br>
+                        <p class="text-slate-800 font-semibold">IOE Entrance Examination</p>
+                        <p class="text-slate-600 text-sm">Tribhuvan University</p>
+                        <p class="text-slate-600 text-sm">Kathmandu, Nepal</p>
+                        <span
+                            class="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold uppercase">RANK 795</span>
+                        <p class="text-sm text-slate-500 mt-2">Secured a competitive nationwide rank in the IOE Entrance
+                            exam, 2081 BS</p>
+                        <div class="mt-4 pt-4 border-t border-slate-200">
+                            <p class="text-slate-800 font-semibold">PoU Entrance examination</p>
+                            <p class="text-slate-600 text-sm">Pokhara University</p>
+                            <p class="text-slate-600 text-sm">Pokhara, kaski, Nepal</p>
+                            <span
+                            class="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold uppercase">PUBLIC RANK 51</span>
+                            <p class="text-sm text-slate-500 mt-2">secured a competitive nationwide rank in the PU Entrance exam, 2081 BS.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative flex flex-col md:flex-row gap-8 items-center group">
+                    <div class="md:w-1/2 md:text-right order-2 md:order-1">
+                        <h3 class="font-header text-2xl font-bold">Higher Secondary</h3>
+                        <p class="font-mono text-blueprint text-sm mb-2">COMPLETED 2024</p>
+                        <p class="text-slate-800 font-semibold">Triton SS & College</p>
+                        <p class="text-slate-600 text-sm">Koteshwor-32, Kathmandu, Nepal</p>
+                        <p class="text-sm text-slate-500 mt-2">Studied +2 Science with full merit scholarship and
+                            completed with 3.52 GPA.</p>
+                    </div>
+
+                    <div
+                        class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-400 rounded-full border-4 border-white shadow-lg hidden md:block z-10 group-hover:bg-blueprint transition-colors">
+                    </div>
+
+                    <div class="md:w-1/2 order-2 md:order-3 pl-8 md:pl-0">
+                        <!-- Spacer -->
+                    </div>
                 </div>
             </div>
-
-            <!-- IOE Entrance Rank Card -->
-            <div class="education-card flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-3 hover:scale-105 hover:shadow-2xl reveal">
-                <div class="md:w-1/3 flex justify-center p-6">
-                    <img src="https://i.ibb.co/Dgz7wbn/ioe-building.jpg" alt="IOE Building"
-                        class="w-40 h-40 object-cover rounded-full transition-transform duration-500 hover:scale-110">
-                </div>
-                <div class="md:w-2/3 p-6 flex flex-col justify-center text-center md:text-left">
-                    <h3 class="text-2xl font-semibold mb-2">IOE Entrance Examination</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-2">
-                        Institute of Engineering, Tribhuvan University<br>
-                        Kathmandu, Nepal
-                    </p>
-                    <p class="font-medium text-gray-700 dark:text-gray-200">
-                        Secured <span class="text-blue-500 font-bold">Rank 795</span>, placing among top nationwide candidates (2081 BS)
-                    </p>
-                </div>
-            </div>
-
-            <!-- Bachelor in Civil Engineering Card -->
-            <div class="education-card flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-3 hover:scale-105 hover:shadow-2xl reveal">
-                <div class="md:w-1/3 flex justify-center p-6">
-                    <img src="https://i.ibb.co/z8KQhYZ/purwanchal-logo.png" alt="Purwanchal Campus"
-                        class="w-40 h-40 object-cover rounded-full transition-transform duration-500 hover:scale-110">
-                </div>
-                <div class="md:w-2/3 p-6 flex flex-col justify-center text-center md:text-left">
-                    <h3 class="text-2xl font-semibold mb-2">Bachelor of Civil Engineering</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-2">
-                        <strong>Purwanchal Campus</strong><br>
-                        Dharan, Sunsari, Nepal
-                    </p>
-                    <p class="font-medium text-gray-700 dark:text-gray-200">
-                        Pursuing Bachelor of Civil Engineering on a <strong>full merit-based scholarship</strong> (Regular Program, 2024 — Present)
-                    </p>
-                </div>
-            </div>
-
         </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="py-24 max-w-5xl mx-auto px-6">
-        <h2 class="text-4xl font-bold text-center mb-12 reveal">Contact</h2>
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 px-6 bg-slate-900 text-white text-center relative overflow-hidden">
+        <!-- Blueprint Grid Overlay -->
+        <div class="absolute inset-0 opacity-10"
+            style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 50px 50px;">
+        </div>
 
-        <div class="flex flex-col items-center gap-10 reveal">
-
-            <p class="text-lg text-center max-w-2xl text-gray-700 dark:text-gray-300">
-                Feel free to reach out through any of the platforms below.
-                I’m always open to connecting, sharing ideas, and meaningful conversations.
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <h2 class="font-header text-5xl font-bold mb-8 uppercase">Let's Connect</h2>
+            <p class="text-slate-400 mb-12 text-lg">
+                I'm always open to discussing engineering, new ideas, and opportunities.
             </p>
 
-            <div class="flex gap-10 justify-center items-center social-icons">
-
-                <!-- Facebook -->
-                <a href="#" target="_blank" class="transform hover:scale-110 transition">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
-                        alt="Facebook" class="w-14 h-14">
+            <div class="flex justify-center gap-6">
+                <a href="mailto:karnsarthak12345@gmail.com"
+                    class="w-16 h-16 flex items-center justify-center border border-slate-600 hover:bg-blueprint hover:border-blueprint transition-all duration-300 text-2xl">
+                    <i class="fas fa-envelope"></i>
                 </a>
-
-                <!-- Instagram -->
-                <a href="#" target="_blank" class="transform hover:scale-110 transition">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"
-                        alt="Instagram" class="w-14 h-14">
+                <a href="https://www.facebook.com/share/1ZQRG8QjTi/"
+                    class="w-16 h-16 flex items-center justify-center border border-slate-600 hover:bg-blueprint hover:border-blueprint transition-all duration-300 text-2xl">
+                    <i class="fab fa-facebook-f"></i>
                 </a>
-
-                <!-- Email -->
-                <a href="#" target="_blank" class="transform hover:scale-110 transition">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg"
-                        alt="Email" class="w-14 h-14">
+                <a href="https://www.instagram.com/introverted._.insight?igsh=MTlsYTg0cXd4eTJ0Mg=="
+                    class="w-16 h-16 flex items-center justify-center border border-slate-600 hover:bg-blueprint hover:border-blueprint transition-all duration-300 text-2xl">
+                    <i class="fab fa-instagram"></i>
                 </a>
-
             </div>
 
+            <div class="mt-20 pt-10 border-t border-slate-800 font-mono text-xs text-slate-500">
+                © 2025 SARTHAK KARN | PERSONAL PORTFOLIO
+            </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="text-center py-10 text-gray-500 dark:text-gray-400">
-        © 2025 Sarthak Karn. All Rights Reserved.
-    </footer>
-
-    <!-- JS Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
-        // DARK MODE TOGGLE
-        const toggle = document.getElementById("darkToggle");
-        toggle.addEventListener("click", () => {
-            document.documentElement.classList.toggle("dark");
-            // Change button icon
-            if (document.documentElement.classList.contains("dark")) {
-                toggle.textContent = "☀️";
-            } else {
-                toggle.textContent = "🌙";
-            }
-        });
+        // --- 3D WIREFRAME STRUCTURE (TRUSS/SPACE FRAME) ---
+        function initStructure() {
+            const canvas = document.getElementById('structure-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
 
-        // SCROLL REVEAL
-        const reveals = document.querySelectorAll(".reveal");
-        function revealOnScroll() {
-            reveals.forEach(el => {
-                const rect = el.getBoundingClientRect().top;
-                if (rect < window.innerHeight - 100) {
-                    el.classList.add("active");
-                } else {
-                    el.classList.remove("active");
-                }
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Create a Space Frame / Truss Geometry
+            const geometry = new THREE.IcosahedronGeometry(10, 1); // Geometric shape
+            const wireframe = new THREE.WireframeGeometry(geometry);
+
+            const material = new THREE.LineBasicMaterial({
+                color: 0x0052cc, // Blueprint Blue
+                transparent: true,
+                opacity: 0.15
+            });
+
+            const structure = new THREE.LineSegments(wireframe, material);
+            scene.add(structure);
+
+            // Add a second, larger structure for depth
+            const geometry2 = new THREE.IcosahedronGeometry(15, 0);
+            const wireframe2 = new THREE.WireframeGeometry(geometry2);
+            const material2 = new THREE.LineBasicMaterial({ color: 0x334155, transparent: true, opacity: 0.05 });
+            const structure2 = new THREE.LineSegments(wireframe2, material2);
+            scene.add(structure2);
+
+            camera.position.z = 15;
+
+            // Animation Loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Slow, heavy rotation (like a massive structure)
+                structure.rotation.x += 0.001;
+                structure.rotation.y += 0.001;
+
+                structure2.rotation.x -= 0.0005;
+                structure2.rotation.y -= 0.0005;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
             });
         }
-        window.addEventListener("scroll", revealOnScroll);
-        revealOnScroll();
 
-        // HERO TYPEWRITER + ANIMATION
-        gsap.from("#hero-name", { y: 50, opacity: 0, duration: 1.5, ease: "power3.out" });
+        initStructure();
 
-        const typewriterTexts = [
-            "Civil Engineering | Purwanchal Campus | IOE | TU",
-            "Creating innovative, sustainable, and resilient infrastructure"
-        ];
+        // --- GSAP ANIMATIONS ---
+        gsap.registerPlugin(ScrollTrigger);
 
-        function typeWriter(elementId, text, delay = 0, speed = 50) {
-            const el = document.getElementById(elementId);
-            let i = 0;
-            setTimeout(() => {
-                const interval = setInterval(() => {
-                    el.innerHTML += text.charAt(i);
-                    i++;
-                    if (i >= text.length) {
-                        clearInterval(interval);
-                        el.classList.remove("cursor"); // remove blinking after finish
-                    }
-                }, speed);
-            }, delay);
-        }
+        // Hero Animations
+        gsap.from("h1", {
+            y: 100,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power4.out",
+            delay: 0.2
+        });
 
-        typeWriter("line1", typewriterTexts[0], 800, 40);
-        typeWriter("line2", typewriterTexts[1], 2200, 35);
+        gsap.from(".blueprint-border", {
+            scaleX: 0,
+            duration: 1,
+            ease: "power3.out",
+            delay: 1
+        });
+
+        // Scroll Reveals
+        gsap.utils.toArray("section").forEach(section => {
+            gsap.from(section.querySelectorAll("h2, p, .education-card"), {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    toggleActions: "play none none reset"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out"
+            });
+        });
     </script>
-
 </body>
-</html>
 
+</html>
