@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sarthakkarn.com.np/sitemap.xml
