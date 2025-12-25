@@ -7,7 +7,6 @@
     <title>Sarthak Karn</title>
     <meta name="description" content="Hello! I am a civil engineering student at Purwanchal Campus IOE TU. Click to know more about me.">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -23,146 +22,172 @@
                         blueprint: '#0052cc',
                         concrete: '#f3f4f6',
                         steel: '#334155',
+                        'cad-dark': '#0f172a',
+                    },
+                    backgroundImage: {
+                        'blueprint-pattern': "linear-gradient(to right, rgba(0, 82, 204, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 82, 204, 0.05) 1px, transparent 1px)",
                     }
                 }
             }
         }
     </script>
 
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* Technical Grid Background */
+        /* --- CUSTOM CURSOR (AutoCAD Style) --- */
+        body {
+            cursor: none; /* Hide default cursor */
+        }
+        #cursor-dot,
+        #cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #0052cc;
+        }
+        #cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(0, 82, 204, 0.5);
+            transition: width 0.2s, height 0.2s;
+        }
+        /* Crosshair lines */
+        #cursor-h, #cursor-v {
+            position: fixed;
+            background-color: rgba(0, 82, 204, 0.2);
+            pointer-events: none;
+            z-index: 9998;
+        }
+        #cursor-h { height: 1px; width: 100vw; top: 0; left: 0; }
+        #cursor-v { width: 1px; height: 100vh; top: 0; left: 0; }
+
+        /* --- BACKGROUND GRIDS --- */
         .bg-grid {
             background-size: 40px 40px;
             background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
         }
-
         .dark .bg-grid {
             background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
         }
 
-        /* Blueprint Style Elements */
-        .blueprint-border {
-            border: 1px solid rgba(0, 82, 204, 0.3);
+        /* --- TEXT REVEAL ANIMATION --- */
+        .reveal-container {
             position: relative;
+            overflow: hidden;
+            display: inline-block;
         }
-
-        .blueprint-border::before,
-        .blueprint-border::after {
-            content: '';
+        .reveal-box {
             position: absolute;
-            width: 8px;
-            height: 8px;
-            border: 1px solid #0052cc;
-            transition: all 0.3s ease;
-        }
-
-        .blueprint-border::before {
-            top: -1px;
-            left: -1px;
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .blueprint-border::after {
-            bottom: -1px;
-            right: -1px;
-            border-left: none;
-            border-top: none;
-        }
-
-        .blueprint-border:hover::before,
-        .blueprint-border:hover::after {
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            background-color: #0052cc;
+            z-index: 2;
+            transform: scaleX(0);
+            transform-origin: left;
         }
 
-        /* SVG Drawing Animation Classes */
+        /* --- TECHNICAL CORNERS (CAD Selection Look) --- */
+        .tech-border {
+            position: relative;
+        }
+        .tech-corner {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-color: #0052cc;
+            border-style: solid;
+            transition: all 0.3s ease;
+        }
+        .tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+        .tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+        .bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+        .br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+        .tech-border:hover .tech-corner {
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+        }
+
+        /* --- SVG STYLES --- */
         .draw-path {
             fill: none;
             stroke: #0052cc;
             stroke-width: 1.5;
             stroke-linecap: round;
             stroke-linejoin: round;
-            opacity: 0.3;
+            opacity: 0.6;
         }
-        
-        .dark .draw-path {
-            stroke: #60a5fa; /* Light blue in dark mode */
-            opacity: 0.2;
-        }
-
-        .crane-arm {
-            transform-origin: 20% 80%;
-        }
+        .dark .draw-path { stroke: #60a5fa; }
     </style>
-    
 </head>
 
-<body class="bg-concrete dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans antialiased transition-colors duration-300 overflow-x-hidden">
+<body class="bg-concrete dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans antialiased transition-colors duration-300 overflow-x-hidden selection:bg-blueprint selection:text-white">
 
-    <!-- 3D Canvas -->
-    <canvas id="structure-canvas"
-        class="fixed top-0 left-0 w-full h-full -z-10 opacity-60 pointer-events-none"></canvas>
+    <div id="cursor-dot" class="hidden md:block"></div>
+    <div id="cursor-outline" class="hidden md:block"></div>
+    <div id="cursor-h" class="hidden md:block"></div>
+    <div id="cursor-v" class="hidden md:block"></div>
 
-    <!-- Grid Overlay -->
+    <canvas id="structure-canvas" class="fixed top-0 left-0 w-full h-full -z-10 opacity-40 pointer-events-none"></canvas>
+
     <div class="fixed inset-0 bg-grid -z-20 pointer-events-none"></div>
 
-    <!-- Civil Engineering Background Animations Container -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        
-        <!-- Animated Bridge Truss (Bottom Left) -->
-        <svg class="absolute bottom-0 left-0 w-[300px] md:w-[600px] h-auto opacity-40" viewBox="0 0 600 200">
-            <path class="draw-path bridge-line" d="M0,200 L600,200 M0,200 L150,50 L300,200 L450,50 L600,200 M0,200 L600,200 M150,50 L450,50 M150,50 L150,200 M300,200 L300,50 M450,50 L450,200" />
+        <svg class="absolute bottom-0 left-0 w-[300px] md:w-[600px] h-auto opacity-30" viewBox="0 0 600 200">
+            <path class="draw-path" d="M0,200 L600,200 M0,200 L150,50 L300,200 L450,50 L600,200 M0,200 L600,200 M150,50 L450,50 M150,50 L150,200 M300,200 L300,50 M450,50 L450,200" />
         </svg>
 
-        <!-- Animated Skyscraper Construction (Right Side) -->
         <svg class="absolute bottom-20 right-[-50px] md:right-10 w-[200px] md:w-[300px] h-auto opacity-30" viewBox="0 0 200 400">
-            <!-- Building Frame -->
-            <path class="draw-path building-line" d="M50,400 L50,100 L150,100 L150,400 M50,300 L150,300 M50,200 L150,200 M50,150 L150,150" />
-            <!-- Crane Tower -->
-            <path class="draw-path crane-tower" d="M160,400 L160,50" />
-            <!-- Crane Arm (Animated) -->
+            <path class="draw-path" d="M50,400 L50,100 L150,100 L150,400 M50,300 L150,300 M50,200 L150,200 M50,150 L150,150" />
+            <path class="draw-path" d="M160,400 L160,50" />
             <g class="crane-arm-group" style="transform-origin: 160px 50px;">
                 <path class="draw-path" d="M160,50 L40,50 M160,50 L180,70" />
-                <path class="draw-path" d="M60,50 L60,120" /> <!-- Hanging Cable -->
-                <rect x="50" y="120" width="20" height="10" class="draw-path" /> <!-- Load -->
+                <path class="draw-path" d="M60,50 L60,120" />
+                <rect x="50" y="120" width="20" height="10" class="draw-path" />
             </g>
         </svg>
-
-        <!-- Surveying Theodolite (Top Right - Floating) -->
-        <svg class="absolute top-32 right-10 w-24 h-24 opacity-20 hidden md:block" viewBox="0 0 100 100">
-            <path class="draw-path survey-line" d="M30,90 L50,30 L70,90 M50,30 L50,20 M40,20 L60,20 M50,50 L50,90" />
-            <circle cx="50" cy="20" r="15" class="draw-path survey-line" />
-        </svg>
-
     </div>
 
-    <!-- Navbar -->
     <nav class="fixed top-0 w-full bg-white/80 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 z-50 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="#" class="font-header text-2xl font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+            <a href="#" class="font-header text-2xl font-bold uppercase tracking-wider text-slate-900 dark:text-white group">
+                <i class="fas fa-layer-group text-blueprint mr-2 group-hover:rotate-180 transition-transform duration-500"></i>
                 Sarthak<span class="text-blueprint">.Karn</span>
             </a>
 
             <div class="flex items-center gap-6">
                 <div class="hidden md:flex space-x-8 font-mono text-sm text-slate-600 dark:text-slate-400">
-                    <a href="#about" class="hover:text-blueprint dark:hover:text-blueprint transition">// ABOUT ME</a>
-                    <a href="#education" class="hover:text-blueprint dark:hover:text-blueprint transition">// ACADEMICS</a>
-                    <a href="#contact" class="hover:text-blueprint dark:hover:text-blueprint transition">// CONTACT</a>
+                    <a href="#about" class="hover:text-blueprint dark:hover:text-blueprint transition relative group">
+                        ABOUT
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blueprint transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#education" class="hover:text-blueprint dark:hover:text-blueprint transition relative group">
+                        ACADEMICS
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blueprint transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#contact" class="hover:text-blueprint dark:hover:text-blueprint transition relative group">
+                        CONTACT
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-blueprint transition-all duration-300 group-hover:w-full"></span>
+                    </a>
                 </div>
                 
-                <!-- Dark Mode Toggle -->
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none">
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none border border-transparent hover:border-blueprint">
                     <i class="fas fa-moon dark:hidden text-slate-600"></i>
                     <i class="fas fa-sun hidden dark:inline text-yellow-400"></i>
                 </button>
@@ -170,83 +195,91 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="min-h-screen flex items-center px-6 pt-20 relative z-10">
         <div class="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
             <div class="space-y-6">
-                <div
-                    class="inline-block px-3 py-1 border border-blueprint text-blueprint font-mono text-xs tracking-widest bg-blue-50 dark:bg-blue-900/20">
-                    CIVIL ENGINEERING PORTFOLIO
+                <div class="inline-flex items-center gap-2 px-3 py-1 border border-blueprint text-blueprint font-mono text-xs tracking-widest bg-blue-50 dark:bg-blue-900/20">
+                    <span class="w-2 h-2 bg-blueprint rounded-full animate-pulse"></span>
+                    CIVIL ENGINEERING STUDENT
                 </div>
 
                 <h1 class="font-header text-6xl md:text-8xl font-bold text-slate-900 dark:text-white leading-none uppercase">
-                    Designing <br>
-                    <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-blueprint to-cyan-600">Tomorrow</span>
+                    <div class="reveal-container">
+                        <span class="reveal-text">Designing</span>
+                        <div class="reveal-box"></div>
+                    </div><br>
+                    <div class="reveal-container">
+                        <span class="reveal-text text-transparent bg-clip-text bg-gradient-to-r from-blueprint to-cyan-600">Tomorrow</span>
+                        <div class="reveal-box"></div>
+                    </div>
                 </h1>
 
-                <p class="font-mono text-slate-600 dark:text-slate-400 max-w-md border-l-2 border-blueprint pl-4">
+                <p class="font-mono text-slate-600 dark:text-slate-400 max-w-md border-l-2 border-blueprint pl-4 py-2">
                     Hi, I'm Sarthak Karn.<br>
                     I combine technical precision with creative vision to build sustainable infrastructure.
                 </p>
 
                 <div class="pt-8 flex gap-4">
-                    <a href="#about"
-                        class="blueprint-border px-8 py-4 bg-slate-900 dark:bg-blueprint text-white font-header tracking-wider hover:bg-blueprint dark:hover:bg-blue-700 transition-colors">
+                    <a href="#about" class="tech-border px-8 py-4 bg-slate-900 dark:bg-blueprint text-white font-header tracking-wider hover:bg-slate-800 transition-colors">
+                        <span class="tech-corner tl"></span><span class="tech-corner tr"></span>
+                        <span class="tech-corner bl"></span><span class="tech-corner br"></span>
                         KNOW MORE
                     </a>
-                    <a href="#contact"
-                        class="px-8 py-4 border border-slate-300 dark:border-slate-700 font-header tracking-wider hover:bg-white dark:hover:bg-slate-800 hover:border-blueprint dark:hover:border-blueprint transition-colors dark:text-white">
-                        GET IN TOUCH
+                    <a href="#contact" class="px-8 py-4 border border-slate-300 dark:border-slate-700 font-header tracking-wider hover:text-blueprint dark:hover:text-blueprint transition-colors dark:text-white relative group overflow-hidden">
+                        <span class="relative z-10">GET IN TOUCH</span>
+                        <div class="absolute inset-0 bg-slate-100 dark:bg-slate-800 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 -z-0"></div>
                     </a>
                 </div>
             </div>
+            
         </div>
 
-        <!-- Technical Decor -->
-        <div class="absolute bottom-10 right-10 font-mono text-xs text-slate-400 hidden md:block text-right">
+        <div class="absolute bottom-10 right-10 font-mono text-xs text-slate-400 hidden md:block text-right border-r-2 border-slate-300 pr-4">
             LOCATION: NEPAL<br>
             STATUS: STUDENT<br>
             MODE: LEARNING
         </div>
     </section>
 
-    <!-- About Section -->
     <section id="about" class="py-32 px-6 bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800 transition-colors duration-300 relative z-10">
         <div class="max-w-6xl mx-auto">
             <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div class="relative">
-                    <!-- Technical Frame around Image -->
-                    <div class="absolute -inset-4 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-sm"></div>
-                    <div class="absolute -inset-4 border-2 border-slate-900 dark:border-slate-400 rounded-sm translate-x-2 translate-y-2">
+                <div class="relative group">
+                    <div class="absolute -inset-4 border border-dashed border-slate-300 dark:border-slate-700"></div>
+                    <div class="absolute -top-5 -left-5 w-4 h-4 border-l-2 border-t-2 border-blueprint"></div>
+                    <div class="absolute -bottom-5 -right-5 w-4 h-4 border-r-2 border-b-2 border-blueprint"></div>
+                    
+                    <div class="relative overflow-hidden">
+                        <div class="absolute inset-0 bg-blueprint/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 mix-blend-multiply"></div>
+                        <img src="sarthakkarn.jpg" alt="Profile" class="relative w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-500 object-cover shadow-xl scale-100 group-hover:scale-105">
                     </div>
-                    <img src="sarthakkarn.jpg" alt="Profile"
-                        class="relative w-full h-auto grayscale hover:grayscale-0 transition-all duration-500 object-cover shadow-xl">
                 </div>
 
                 <div>
-                    <h2 class="font-header text-4xl font-bold mb-2 uppercase dark:text-white">// About Me</h2>
-                    <div class="h-1 w-20 bg-blueprint mb-8"></div>
-
+                    <div class="flex items-center gap-4 mb-6">
+                        <i class="fas fa-hard-hat text-blueprint text-3xl"></i>
+                        <h2 class="font-header text-4xl font-bold uppercase dark:text-white">// About Me</h2>
+                    </div>
+                    
                     <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6 text-justify">
-                        I am a Civil Engineering student with a deep interest in structural design and surveying. My
-                        journey is driven by a desire to understand how we can build safer, more efficient, and
-                        sustainable infrastructure for the future.
+                        I am a Civil Engineering student with a deep interest in structural design and surveying. My journey is driven by a desire to understand how we can build safer, more efficient, and sustainable infrastructure for the future.
                     </p>
                     <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-8 text-justify">
-                        Currently pursuing my Bachelor's at <span class="text-blueprint font-bold">Purwanchal Campus
-                            (IOE TU)</span>, I am constantly learning and applying new skills to solve real-world
-                        engineering challenges.
+                        Currently pursuing my Bachelor's at <span class="text-blueprint font-bold border-b border-blueprint border-dashed">Purwanchal Campus (IOE TU)</span>, I am constantly learning and applying new skills to solve real-world engineering challenges.
                     </p>
 
                     <div class="grid grid-cols-2 gap-4 font-mono text-sm">
-                        <div class="p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-                            <i class="fas fa-drafting-compass text-blueprint mb-2 text-xl"></i>
+                        <div class="tech-border p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 group hover:bg-white dark:hover:bg-slate-700 transition-colors">
+                            <span class="tech-corner tl"></span><span class="tech-corner tr"></span>
+                            <span class="tech-corner bl"></span><span class="tech-corner br"></span>
+                            <i class="fas fa-drafting-compass text-blueprint mb-2 text-xl group-hover:scale-110 transition-transform"></i>
                             <div class="font-bold text-slate-900 dark:text-white">PLANNING</div>
                             <div class="text-slate-500 dark:text-slate-400">Surveying & Layout</div>
                         </div>
-                        <div class="p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-                            <i class="fas fa-building text-blueprint mb-2 text-xl"></i>
+                        <div class="tech-border p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 group hover:bg-white dark:hover:bg-slate-700 transition-colors">
+                            <span class="tech-corner tl"></span><span class="tech-corner tr"></span>
+                            <span class="tech-corner bl"></span><span class="tech-corner br"></span>
+                            <i class="fas fa-building text-blueprint mb-2 text-xl group-hover:scale-110 transition-transform"></i>
                             <div class="font-bold text-slate-900 dark:text-white">STRUCTURE</div>
                             <div class="text-slate-500 dark:text-slate-400">Analysis & Design</div>
                         </div>
@@ -256,163 +289,169 @@
         </div>
     </section>
 
-    <!-- Education Section -->
     <section id="education" class="py-32 px-6 bg-concrete dark:bg-slate-950 transition-colors duration-300 relative z-10">
         <div class="max-w-4xl mx-auto">
-            <h2 class="font-header text-4xl font-bold mb-2 uppercase text-center dark:text-white">// Academic Timeline</h2>
+            <h2 class="font-header text-4xl font-bold mb-2 uppercase text-center dark:text-white">
+                <span class="text-blueprint">//</span> Academic Timeline
+            </h2>
             <div class="h-1 w-20 bg-blueprint mx-auto mb-16"></div>
 
-            <div class="space-y-8 relative">
-                <!-- Vertical Line -->
-                <div class="absolute left-0 md:left-1/2 h-full w-px bg-slate-300 dark:bg-slate-700 -translate-x-1/2 hidden md:block">
-                </div>
+            <div class="space-y-12 relative" id="timeline-container">
+                <div class="absolute left-0 md:left-1/2 top-0 w-0.5 bg-slate-300 dark:bg-slate-700 -translate-x-1/2 h-full hidden md:block origin-top" id="timeline-line"></div>
 
-                <!-- Item 1 -->
-                <div class="relative flex flex-col md:flex-row gap-8 items-center group">
+                <div class="relative flex flex-col md:flex-row gap-8 items-center group timeline-item">
                     <div class="md:w-1/2 md:text-right order-2 md:order-1">
-                        <h3 class="font-header text-2xl font-bold dark:text-white">Bachelor of Civil Engineering</h3>
+                        <h3 class="font-header text-2xl font-bold dark:text-white group-hover:text-blueprint transition-colors">Bachelor of Civil Engineering</h3>
                         <p class="font-mono text-blueprint text-sm mb-2">NOV 2024 - PRESENT</p>
                         <p class="text-slate-800 dark:text-slate-300 font-semibold">Purwanchal Campus</p>
                         <p class="text-slate-600 dark:text-slate-500 text-sm">Dharan-8, Sunsari, Nepal</p>
-                        <span
-                            class="inline-block mt-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-bold uppercase">Full
-                            Merit Scholarship (Regular)</span>
+                        <span class="inline-block mt-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-bold uppercase border-l-4 border-blueprint">Regular</span>
                     </div>
 
-                    <div
-                        class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-blueprint rounded-full border-4 border-white dark:border-slate-800 shadow-lg hidden md:block z-10">
-                    </div>
+                    <div class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-blueprint rounded-full border-4 border-white dark:border-slate-800 shadow-lg hidden md:block z-10 scale-125"></div>
 
-                    <div class="md:w-1/2 order-2 md:order-3 pl-8 md:pl-0">
-                        <!-- Spacer -->
-                    </div>
+                    <div class="md:w-1/2 order-2 md:order-3 pl-8 md:pl-0"></div>
                 </div>
 
-                <!-- Item 2 -->
-                <div class="relative flex flex-col md:flex-row gap-8 items-center group">
-                    <div class="md:w-1/2 md:text-right order-2 md:order-1">
-                        <!-- Spacer -->
-                    </div>
+                <div class="relative flex flex-col md:flex-row gap-8 items-center group timeline-item">
+                    <div class="md:w-1/2 md:text-right order-2 md:order-1"></div>
 
-                    <div
-                        class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-400 dark:bg-slate-600 rounded-full border-4 border-white dark:border-slate-800 shadow-lg hidden md:block z-10 group-hover:bg-blueprint transition-colors">
-                    </div>
+                    <div class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-400 dark:bg-slate-600 rounded-full border-4 border-white dark:border-slate-800 shadow-lg hidden md:block z-10 group-hover:bg-blueprint group-hover:scale-125 transition-all duration-300"></div>
 
                     <div class="md:w-1/2 order-2 md:order-3">
-                        <h3 class="font-header text-2xl font-bold dark:text-white">Entrance Examination</h3>
+                        <h3 class="font-header text-2xl font-bold dark:text-white group-hover:text-blueprint transition-colors">Entrance Examination</h3>
                         <p class="font-mono text-blueprint text-sm mb-2">2024</p>
-                        <p class="text-slate-800 dark:text-slate-300 font-semibold">IOE Entrance Examination</p>
-                        <p class="text-slate-600 dark:text-slate-500 text-sm">Tribhuvan University</p>
-                        <p class="text-slate-600 dark:text-slate-500 text-sm">Kathmandu, Nepal</p>
-                        <span
-                            class="inline-block mt-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-bold uppercase">RANK
-                            795</span>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Secured a competitive nationwide rank in the IOE Entrance
-                            exam, 2081 BS</p>
-                        <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
-                            <p class="text-slate-800 dark:text-slate-300 font-semibold">PoU Entrance examination</p>
+                        <div class="p-4 border border-dashed border-slate-300 dark:border-slate-700 rounded bg-white dark:bg-slate-900">
+                            <p class="text-slate-800 dark:text-slate-300 font-semibold">IOE Entrance Examination</p>
+                            <p class="text-slate-600 dark:text-slate-500 text-sm">Tribhuvan University</p>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-xs text-slate-500">Kathmandu, Nepal</span>
+                                <span class="px-2 py-0.5 bg-slate-800 text-white text-xs font-bold font-mono">RANK 795</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 p-4 border border-dashed border-slate-300 dark:border-slate-700 rounded bg-white dark:bg-slate-900">
+                            <p class="text-slate-800 dark:text-slate-300 font-semibold">PoU Entrance Examination</p>
                             <p class="text-slate-600 dark:text-slate-500 text-sm">Pokhara University</p>
-                            <p class="text-slate-600 dark:text-slate-500 text-sm">Pokhara, kaski, Nepal</p>
-                            <span
-                                class="inline-block mt-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-bold uppercase">RANK 51</span>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">secured a competitive nationwide rank in the PoU
-                                Entrance exam, 2081 BS.</p>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-xs text-slate-500">Pokhara, Nepal</span>
+                                <span class="px-2 py-0.5 bg-slate-800 text-white text-xs font-bold font-mono">RANK 51</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Item 3 -->
-                <div class="relative flex flex-col md:flex-row gap-8 items-center group">
+                <div class="relative flex flex-col md:flex-row gap-8 items-center group timeline-item">
                     <div class="md:w-1/2 md:text-right order-2 md:order-1">
-                        <h3 class="font-header text-2xl font-bold dark:text-white">Higher Secondary</h3>
+                        <h3 class="font-header text-2xl font-bold dark:text-white group-hover:text-blueprint transition-colors">Higher Secondary</h3>
                         <p class="font-mono text-blueprint text-sm mb-2">COMPLETED 2024</p>
                         <p class="text-slate-800 dark:text-slate-300 font-semibold">Triton SS & College</p>
                         <p class="text-slate-600 dark:text-slate-500 text-sm">Koteshwor-32, Kathmandu, Nepal</p>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">Completed Grades XI and XII on a full merit-based
-                            scholarship, consistently ranked among top students.</p>
-                        <span
-                            class="inline-block mt-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-bold uppercase">3.52
-                            GPA</span>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2 italic">"Completed Grades XI and XII on a top tire merit scholarship"</p>
+                        <span class="inline-block mt-2 px-3 py-1 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase">GPA: 3.52</span>
                     </div>
 
-                    <div
-                        class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-400 dark:bg-slate-600 rounded-full border-4 border-white dark:border-slate-800 shadow-lg hidden md:block z-10 group-hover:bg-blueprint transition-colors">
-                    </div>
-
-                    <div class="md:w-1/2 order-2 md:order-3 pl-8 md:pl-0">
-                        <!-- Spacer -->
-                    </div>
+                    <div class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-400 dark:bg-slate-600 rounded-full border-4 border-white dark:border-slate-800 shadow-lg hidden md:block z-10 group-hover:bg-blueprint group-hover:scale-125 transition-all duration-300"></div>
+                    <div class="md:w-1/2 order-2 md:order-3 pl-8 md:pl-0"></div>
                 </div>
-                <!-- Item 4 -->
-                <div class="relative flex flex-col md:flex-row gap-8 items-center group">
-                    <div class="md:w-1/2 md:text-right order-2 md:order-1">
-                        <!-- Spacer -->
-                    </div>
 
-                    <div
-                        class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-400 dark:bg-slate-600 rounded-full border-4 border-white dark:border-slate-800 shadow-lg hidden md:block z-10 group-hover:bg-blueprint transition-colors">
-                    </div>
-
+                <div class="relative flex flex-col md:flex-row gap-8 items-center group timeline-item">
+                    <div class="md:w-1/2 md:text-right order-2 md:order-1"></div>
+                    <div class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-400 dark:bg-slate-600 rounded-full border-4 border-white dark:border-slate-800 shadow-lg hidden md:block z-10 group-hover:bg-blueprint group-hover:scale-125 transition-all duration-300"></div>
                     <div class="md:w-1/2 order-2 md:order-3">
-                        <h3 class="font-header text-2xl font-bold dark:text-white">Schooling</h3>
+                        <h3 class="font-header text-2xl font-bold dark:text-white group-hover:text-blueprint transition-colors">Schooling</h3>
                         <p class="font-mono text-blueprint text-sm mb-2">COMPLETED 2022</p>
-                        <p class="text-slate-800 dark:text-slate-300 font-semibold">SEE  3.60 GPA</p>
-                        
+                        <p class="text-slate-800 dark:text-slate-300 font-semibold">SEE</p>
+                        <span class="inline-block mt-2 px-3 py-1 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase">GPA: 3.60</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-16 px-6 bg-slate-900 dark:bg-black text-white text-center relative overflow-hidden z-10">
-        <!-- Blueprint Grid Overlay -->
-        <div class="absolute inset-0 opacity-10"
-            style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 50px 50px;">
-        </div>
+    <section id="contact" class="py-16 px-6 bg-slate-900 dark:bg-black text-white text-center relative overflow-hidden z-10 border-t-4 border-blueprint">
+        <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 50px 50px;"></div>
 
         <div class="relative z-10 max-w-3xl mx-auto">
-            <h2 class="font-header text-5xl font-bold mb-6 uppercase">Let's Connect</h2>
-            <p class="text-slate-400 mb-8 text-lg">
+            <h2 class="font-header text-5xl font-bold mb-6 uppercase tracking-widest">Let's Build</h2>
+            <p class="text-slate-400 mb-8 text-lg font-mono">
                 I'm always open to discussing engineering, new ideas, and opportunities.
             </p>
 
             <div class="flex justify-center gap-6">
-                <a href="mailto:karnsarthak12345@gmail.com"
-                    class="w-16 h-16 flex items-center justify-center border border-slate-600 hover:bg-blueprint hover:border-blueprint transition-all duration-300 text-2xl">
-                    <i class="fas fa-envelope"></i>
+                <a href="mailto:karnsarthak12345@gmail.com" class="group w-20 h-20 flex flex-col items-center justify-center border border-slate-600 hover:bg-blueprint hover:border-blueprint transition-all duration-300">
+                    <i class="fas fa-envelope text-2xl mb-1 group-hover:-translate-y-1 transition-transform"></i>
+                    <span class="text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity">MAIL</span>
                 </a>
-                <a href="https://www.facebook.com/share/1ZQRG8QjTi/"
-                    class="w-16 h-16 flex items-center justify-center border border-slate-600 hover:bg-blueprint hover:border-blueprint transition-all duration-300 text-2xl">
-                    <i class="fab fa-facebook-f"></i>
+                <a href="https://www.facebook.com/share/1ZQRG8QjTi/" class="group w-20 h-20 flex flex-col items-center justify-center border border-slate-600 hover:bg-blueprint hover:border-blueprint transition-all duration-300">
+                    <i class="fab fa-facebook-f text-2xl mb-1 group-hover:-translate-y-1 transition-transform"></i>
+                    <span class="text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity">FB</span>
                 </a>
-                <a href="https://www.instagram.com/introverted._.insight?igsh=MTlsYTg0cXd4eTJ0Mg=="
-                    class="w-16 h-16 flex items-center justify-center border border-slate-600 hover:bg-blueprint hover:border-blueprint transition-all duration-300 text-2xl">
-                    <i class="fab fa-instagram"></i>
+                <a href="https://www.instagram.com/introverted._.insight?igsh=MTlsYTg0cXd4eTJ0Mg==" class="group w-20 h-20 flex flex-col items-center justify-center border border-slate-600 hover:bg-blueprint hover:border-blueprint transition-all duration-300">
+                    <i class="fab fa-instagram text-2xl mb-1 group-hover:-translate-y-1 transition-transform"></i>
+                    <span class="text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity">IG</span>
                 </a>
-                <a href="https://www.linkedin.com/in/sarthak-karn-325b79399/"
-                    class="w-16 h-16 flex items-center justify-center border border-slate-600 hover:bg-blueprint hover:border-blueprint transition-all duration-300 text-2xl">
-                    <i class="fab fa-linkedin-in"></i>
+                <a href="https://www.linkedin.com/in/sarthak-karn-325b79399/" class="group w-20 h-20 flex flex-col items-center justify-center border border-slate-600 hover:bg-blueprint hover:border-blueprint transition-all duration-300">
+                    <i class="fab fa-linkedin-in text-2xl mb-1 group-hover:-translate-y-1 transition-transform"></i>
+                    <span class="text-[10px] font-mono opacity-0 group-hover:opacity-100 transition-opacity">LN</span>
                 </a>
             </div>
 
             <div class="mt-12 pt-8 border-t border-slate-800 font-mono text-xs text-slate-500">
-                © 2025 Sarthak Karn. Personal Portfolio. All Rights Reserved.
+                © 2025 Sarthak Karn. Personal Website.
             </div>
         </div>
     </section>
 
-    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <script>
+        // --- CURSOR FOLLOWER ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        const cursorH = document.getElementById('cursor-h');
+        const cursorV = document.getElementById('cursor-v');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Crosshairs
+            cursorH.style.top = posY + 'px';
+            cursorV.style.left = posX + 'px';
+
+            // Dot
+            cursorDot.style.left = posX + 'px';
+            cursorDot.style.top = posY + 'px';
+
+            // Trailing Outline
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover effects on links to expand cursor
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.style.width = '60px';
+                cursorOutline.style.height = '60px';
+                cursorOutline.style.backgroundColor = 'rgba(0, 82, 204, 0.1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.style.width = '40px';
+                cursorOutline.style.height = '40px';
+                cursorOutline.style.backgroundColor = 'transparent';
+            });
+        });
+
+
         // --- THEME TOGGLE LOGIC ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         const htmlElement = document.documentElement;
 
-        // Check for saved theme preference or system preference
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             htmlElement.classList.add('dark');
         } else {
@@ -428,18 +467,60 @@
             }
         });
 
-        // --- SVG DRAWING ANIMATIONS ---
-        // Animate the drawing of the bridge and building lines
-        gsap.utils.toArray('.draw-path').forEach(path => {
-            const length = path.getTotalLength();
+        // --- GSAP ANIMATIONS ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Text Reveals (Construction Block Effect)
+        gsap.utils.toArray('.reveal-container').forEach(container => {
+            const box = container.querySelector('.reveal-box');
+            const text = container.querySelector('.reveal-text');
             
-            // Set up initial state
-            gsap.set(path, {
-                strokeDasharray: length,
-                strokeDashoffset: length
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top 80%",
+                }
             });
 
-            // Animate
+            tl.to(box, { duration: 0.5, scaleX: 1, ease: "power2.inOut" })
+              .set(text, { opacity: 1 }) // Make text visible behind box
+              .to(box, { duration: 0.5, scaleX: 0, transformOrigin: "right", ease: "power2.inOut" });
+        });
+        
+        // Hide text initially for the reveal to work
+        gsap.set('.reveal-text', { opacity: 0 });
+
+        // 2. Timeline Line Drawing
+        gsap.from("#timeline-line", {
+            scaleY: 0,
+            duration: 2,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#timeline-container",
+                start: "top 60%",
+                end: "bottom 80%",
+                scrub: 1
+            }
+        });
+
+        // 3. Timeline Items Pop in
+        gsap.utils.toArray('.timeline-item').forEach(item => {
+            gsap.from(item, {
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // 4. SVG Drawing
+        gsap.utils.toArray('.draw-path').forEach(path => {
+            const length = path.getTotalLength();
+            gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
             gsap.to(path, {
                 strokeDashoffset: 0,
                 duration: 3,
@@ -447,12 +528,11 @@
                 scrollTrigger: {
                     trigger: path,
                     start: "top 90%",
-                    toggleActions: "play none none reverse"
                 }
             });
         });
 
-        // Animate Crane Arm
+        // Crane Animation
         gsap.to(".crane-arm-group", {
             rotation: -15,
             duration: 4,
@@ -463,7 +543,7 @@
         });
 
 
-        // --- 3D WIREFRAME STRUCTURE (TRUSS/SPACE FRAME) ---
+        // --- 3D STRUCTURE (Civil Grid Terrain) ---
         function initStructure() {
             const canvas = document.getElementById('structure-canvas');
             const scene = new THREE.Scene();
@@ -473,92 +553,66 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // Create a Space Frame / Truss Geometry
-            const geometry = new THREE.IcosahedronGeometry(10, 1); // Geometric shape
+            // Create a Grid/Terrain representing topography or slab analysis
+            const size = 60;
+            const divisions = 40;
+            // Create a Plane
+            const geometry = new THREE.PlaneGeometry(size, size, divisions, divisions);
+            
+            // Displace vertices to make it look like terrain or deformed structure
+            const count = geometry.attributes.position.count;
+            for (let i = 0; i < count; i++) {
+                const x = geometry.attributes.position.getX(i);
+                const y = geometry.attributes.position.getY(i);
+                // Simple wave function
+                const z = Math.sin(x/5) * Math.cos(y/5) * 2; 
+                geometry.attributes.position.setZ(i, z);
+            }
+            
             const wireframe = new THREE.WireframeGeometry(geometry);
-
-            const material = new THREE.LineBasicMaterial({
-                color: 0x0052cc, // Blueprint Blue
-                transparent: true,
-                opacity: 0.15
+            const material = new THREE.LineBasicMaterial({ 
+                color: 0x0052cc, 
+                opacity: 0.15, 
+                transparent: true 
             });
 
-            const structure = new THREE.LineSegments(wireframe, material);
-            scene.add(structure);
+            const terrain = new THREE.LineSegments(wireframe, material);
+            terrain.rotation.x = -Math.PI / 2; // Lie flat
+            scene.add(terrain);
 
-            // Add a second, larger structure for depth
-            const geometry2 = new THREE.IcosahedronGeometry(15, 0);
-            const wireframe2 = new THREE.WireframeGeometry(geometry2);
-            const material2 = new THREE.LineBasicMaterial({ color: 0x334155, transparent: true, opacity: 0.05 });
-            const structure2 = new THREE.LineSegments(wireframe2, material2);
-            scene.add(structure2);
+            camera.position.set(0, 10, 20);
+            camera.lookAt(0, 0, 0);
 
-            camera.position.z = 15;
+            // Mouse Interaction
+            let mouseX = 0;
+            let mouseY = 0;
 
-            // Animation Loop
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
             function animate() {
                 requestAnimationFrame(animate);
 
-                // Slow, heavy rotation (like a massive structure)
-                structure.rotation.x += 0.001;
-                structure.rotation.y += 0.001;
-
-                structure2.rotation.x -= 0.0005;
-                structure2.rotation.y -= 0.0005;
+                // Rotate slightly based on mouse
+                terrain.rotation.z += 0.001;
+                terrain.rotation.x = -Math.PI / 2 + (mouseY * 0.1);
+                terrain.rotation.y = (mouseX * 0.1);
 
                 renderer.render(scene, camera);
             }
             animate();
 
-            // Handle Resize
             window.addEventListener('resize', () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
+                camera.updateProjectionMatrix();   
                 renderer.setSize(window.innerWidth, window.innerHeight);
             });
         }
 
         initStructure();
-
-        // --- GSAP ANIMATIONS ---
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Hero Animations
-        gsap.from("h1", {
-            y: 100,
-            opacity: 0,
-            duration: 1.2,
-            ease: "power4.out",
-            delay: 0.2
-        });
-
-        gsap.from(".blueprint-border", {
-            scaleX: 0,
-            duration: 1,
-            ease: "power3.out",
-            delay: 1
-        });
-
-        // Scroll Reveals
-        gsap.utils.toArray("section").forEach(section => {
-            gsap.from(section.querySelectorAll("h2, p, .education-card"), {
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top 80%",
-                    toggleActions: "play none none reset"
-                },
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                stagger: 0.2,
-                ease: "power3.out"
-            });
-        });
     </script>
 </body>
 
 </html>
-
-
-
-
